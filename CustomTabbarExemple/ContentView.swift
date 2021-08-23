@@ -19,3 +19,15 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+struct Home: View {
+    
+    @State var selectedTab = "home"
+    
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            
+        }
+    }
+    
+}
