@@ -21,7 +21,7 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Home: View {
     
-    @State var selectedTab = "house"
+    @State var selectedTab = "home"
     
     
     init () {
@@ -37,21 +37,18 @@ struct Home: View {
         ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
         TabView(selection: $selectedTab) {
             
-            Color("Color1")
+            Color.red
                 .ignoresSafeArea(.all,edges: .all)
-                .tag("house")
-            
-            Color("Color2")
-                .ignoresSafeArea(.all,edges: .all)
-                .tag("gift")
-            
-            Color.purple
-                .ignoresSafeArea(.all,edges: .all)
-                .tag("bell")
+                .tag("home")
             
             Color.blue
                 .ignoresSafeArea(.all,edges: .all)
-                .tag("message")
+                .tag("toggle")
+            
+            Color.gray
+                .ignoresSafeArea(.all,edges: .all)
+                .tag("heart")
+            
         }
             
             //Custom tab bar...
@@ -67,17 +64,16 @@ struct Home: View {
                                 xAxis = reader.frame(in: .global).minX
                             }
                         }, label: {
-                            
-                            Image(systemName: image)
+                            Image(image)
                                 .resizable()
                                 .renderingMode(.template)
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 25)
+                                .frame(width: 30, height: 30)
                                 .foregroundColor(selectedTab == image ? getColor(image: image) : Color.gray)
                                 .padding(selectedTab == image ? 15 : 0)
                                 .background(Color.white.opacity(selectedTab == image ? 1 : 0).clipShape(Circle()))
                                 .matchedGeometryEffect(id: image, in: animation)
-                                .offset(x: selectedTab == image ? (reader.frame(in: .global).minX - reader.frame(in: .global).midX) : 0,y: selectedTab == image ? -50 : 0)
+                                .offset(x: selectedTab == image ? (reader.frame(in: .global).minX - reader.frame(in: .global).midX) : 0,y: selectedTab == image ? -100 : -10)
                             
                         })
                         .onAppear(perform: {
@@ -86,39 +82,42 @@ struct Home: View {
                             }
                         })
                     }
-                    .frame(width: 25, height: 25)
+                    .frame(width: 30, height: 30)
                     
                     if image != tabs.last{Spacer(minLength: 0)}
                     
                 }
             }
-            .padding(.horizontal,30)
-            .padding(.vertical)
-            .background(Color.white.clipShape(CustomShape(xAxis: xAxis)).cornerRadius(12))
+            .padding(.horizontal,40)
+            .padding(.vertical,30)
+            .background(Color.white.clipShape(CustomShape(xAxis: xAxis)))
             .padding(.horizontal)
             //Bottom Edge...
-            .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
+//            .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
+//            .background(Color.white)
         }
         .ignoresSafeArea(.all, edges: .bottom)
+//        .ignoresSafeArea(.all, edges: .trailing)
+//        .ignoresSafeArea(.all, edges: .leading)
     }
     
     //getting Image Color...
     
     func getColor(image: String)-> Color{
         switch image {
-        case "house":
-            return Color("Color1")
-        case "gift":
-            return Color("Color2")
-        case "bell":
-            return Color.purple
-        default:
+        case "home":
+            return Color.red
+        case "toggle":
             return Color.blue
+        case "heart":
+            return Color.gray
+        default:
+            return Color.red
         }
     }
 }
 
-var tabs = ["house","gift", "bell", "message"]
+var tabs = ["home","toggle","heart"]
 
 // Curve...
 
@@ -131,26 +130,32 @@ struct CustomShape : Shape {
 //        get {return xAxis}
 //        set{xAxis = newValue}
 //    }
+    
+    
     func path(in rect: CGRect) -> Path {
         
         return Path{path in
             
-            path.move(to: CGPoint(x: 0, y: 0))
-            path.addLine(to: CGPoint(x: rect.width, y: 0))
-            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.move(to: CGPoint(x: -20, y: 0))
+            path.addLine(to: CGPoint(x: rect.width + 20, y: 0))
+            path.addLine(to: CGPoint(x: rect.width + 20, y: rect.maxY))
+            path.addLine(to: CGPoint(x: -20, y: rect.height))
             
             let center = xAxis
-            
+            //Ponto da esquerda da curva
             path.move(to: CGPoint(x: center - 50, y: 0))
             
+            //Ponto do meio da curva
             let to1 = CGPoint(x: center, y: 35)
-            let control1 = CGPoint(x: center - 25, y: 0)
-            let control2 = CGPoint(x: center - 25, y: 35)
             
+            let control1 = CGPoint(x: center - 40 , y: 0)
+            let control2 = CGPoint(x: center - 40 , y: 0)
+            
+            //Ponto da direita da curva
             let to2 = CGPoint(x: center + 50, y: 0)
-            let control3 = CGPoint(x: center + 25, y: 35)
-            let control4 = CGPoint(x: center + 25, y: 0)
+            
+            let control3 = CGPoint(x: center + 40, y: 0)
+            let control4 = CGPoint(x: center + 40, y: 0)
             
             path.addCurve(to: to1, control1: control1, control2: control2)
             path.addCurve(to: to2, control1: control3, control2: control4)
