@@ -127,10 +127,10 @@ struct CustomShape : Shape {
     var xAxis: CGFloat
     
     // Animation Path...
-    var animatableData: CGFloat{
-        get {return xAxis}
-        set{xAxis = newValue}
-    }
+//    var animatableData: CGFloat{
+//        get {return xAxis}
+//        set{xAxis = newValue}
+//    }
     func path(in rect: CGRect) -> Path {
         
         return Path{path in
