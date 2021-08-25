@@ -73,7 +73,7 @@ struct Home: View {
                                 .padding(selectedTab == image ? 15 : 0)
                                 .background(Color.white.opacity(selectedTab == image ? 1 : 0).clipShape(Circle()))
                                 .matchedGeometryEffect(id: image, in: animation)
-                                .offset(x: selectedTab == image ? (reader.frame(in: .global).minX - reader.frame(in: .global).midX) : 0,y: selectedTab == image ? -100 : -10)
+                                .offset(x: selectedTab == image ? (reader.frame(in: .global).minX - reader.frame(in: .global).midX) : 0,y: selectedTab == image ? -60 : -10)
                             
                         })
                         .onAppear(perform: {
@@ -146,16 +146,16 @@ struct CustomShape : Shape {
             path.move(to: CGPoint(x: center - 50, y: 0))
             
             //Ponto do meio da curva
-            let to1 = CGPoint(x: center, y: 35)
+            let to1 = CGPoint(x: center, y: 34)
             
-            let control1 = CGPoint(x: center - 40 , y: 0)
-            let control2 = CGPoint(x: center - 40 , y: 0)
+            let control1 = CGPoint(x: center - 20 , y: 0)
+            let control2 = CGPoint(x: center - 45 , y: 28)
             
             //Ponto da direita da curva
             let to2 = CGPoint(x: center + 50, y: 0)
             
-            let control3 = CGPoint(x: center + 40, y: 0)
-            let control4 = CGPoint(x: center + 40, y: 0)
+            let control3 = CGPoint(x: center + 45, y: 25)
+            let control4 = CGPoint(x: center + 20, y: 0)
             
             path.addCurve(to: to1, control1: control1, control2: control2)
             path.addCurve(to: to2, control1: control3, control2: control4)
